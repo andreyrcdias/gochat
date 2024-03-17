@@ -47,15 +47,15 @@ func server(messages chan Message) {
 			log.Printf("Client %s disconnected", addr.String())
 			delete(clients, addr.String())
 		case NewMessage:
-			authorAddr := msg.Conn.RemoteAddr().(*net.TCPAddr)
-			author := clients[authorAddr.String()]
+			addr := msg.Conn.RemoteAddr().(*net.TCPAddr)
+			author := clients[addr.String()]
 			now := time.Now()
 			if author != nil {
 				if utf8.ValidString(msg.Text) {
 					author.LastMessage = now
-					log.Printf("Client %s sent message %s", authorAddr.String(), msg.Text)
+					log.Printf("Client %s sent message %s", addr.String(), msg.Text)
 					for _, client := range clients {
-						if client.Conn.RemoteAddr().String() != authorAddr.String() {
+						if client.Conn.RemoteAddr().String() != addr.String() {
 							client.Conn.Write([]byte(msg.Text))
 						}
 					}

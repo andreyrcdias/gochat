@@ -1,6 +1,6 @@
 # gochat
 
-A super simple go TCP chat.
+A super simple Multi-User Chat
 
 
 ## Quick Start
